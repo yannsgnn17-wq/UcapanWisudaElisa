@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selamat Wisuda Ya SENGGG!!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* =====================================================
+     PANDUAN WARNA (hanya 3 warna teks dipakai di seluruh halaman):
+     --ink       -> judul & teks ucapan utama
+     --ink-soft  -> teks pendukung / caption
+     --gold      -> label kecil (eyebrow) & aksen
+     ===================================================== */
+  :root{
+    --cream:#FFF7F2;
+    --blush:#FBE2E7;
+    --pink:#F3B4C6;
+    --pink-deep:#E38FA8;
+    --gold:#B8905A;
+    --gold-soft:#E3CBA0;
+    --sage:#B7CBAF;
+    --white:#FFFFFF;
+
+    --ink:#5B3540;
+    --ink-soft:#8C6470;
+
+    --shadow:0 24px 60px rgba(150,90,110,.22);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html,body{height:100%;}
+  body{
+    font-family:'Poppins', sans-serif;
+    color:var(--ink-soft);
+    background:var(--cream);
+    overflow:hidden; /* tidak ada scroll, tampilan berpindah lewat klik */
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,.serif{font-family:'Playfair Display', serif;}
+  ::selection{background:var(--pink); color:#fff;}
+
+  .eyebrow{
+    font-family:'Poppins',sans-serif; letter-spacing:.32em; text-transform:uppercase;
+    font-size:.66rem; color:var(--gold); font-weight:500;
+  }
+  .eyebrow::before,.eyebrow::after{content:'✦'; margin:0 10px; color:var(--gold-soft);}
+
+  /* ---------- Ambient: sparkle (dipertahankan, ditipiskan) ---------- */
+  #sparkle-layer{position:fixed; inset:0; pointer-events:none; z-index:2; overflow:hidden;}
+  .sparkle{
+    position:absolute; width:4px; height:4px; border-radius:50%;
+    background:radial-gradient(circle, #fffdf7 0%, var(--gold-soft) 60%, transparent 100%);
+    opacity:0; animation:twinkle 5s ease-in-out infinite;
+    box-shadow:0 0 6px 1px rgba(255,244,214,.7);
+  }
+  @keyframes twinkle{0%,100%{opacity:0; transform:scale(.6);} 50%{opacity:.85; transform:scale(1.2);}}
+
+  /* ---------- Ambient: kelopak jatuh (dipertahankan, lebih lembut) ---------- */
+  #petal-layer{position:fixed; inset:0; pointer-events:none; z-index:2; overflow:hidden;}
+  .petal{position:absolute; top:-5%; will-change:transform,opacity; animation-name:fall; animation-timing-function:linear; animation-iteration-count:1; opacity:.8;}
+  .petal svg{display:block; filter:drop-shadow(0 2px 4px rgba(200,140,160,.2));}
+  @keyframes fall{
+    0%{transform:translate(0,0) rotate(0deg); opacity:0;}
+    10%{opacity:.75;}
+    90%{opacity:.7;}
+    100%{transform:translate(var(--drift,40px), 108vh) rotate(var(--spin,320deg)); opacity:0;}
+  }
+
+  /* ================= STAGE (mengganti sistem scroll) ================= */
+  .stage{position:relative; width:100%; height:100vh;}
+  .view{
+    position:absolute; inset:0; width:100%; height:100%;
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; visibility:hidden; pointer-events:none;
+    transform:translateY(16px) scale(.98);
+    transition:opacity .7s ease, transform .7s ease, visibility 0s linear .7s;
+  }
+  .view.active{
+    opacity:1; visibility:visible; pointer-events:auto;
+    transform:translateY(0) scale(1);
+    transition:opacity .7s ease, transform .7s ease, visibility 0s linear 0s;
+  }
+
+  /* ================= HERO ================= */
+  #view-hero{
+    flex-direction:column; text-align:center; padding:6vh 6vw;
+    background:
+      radial-gradient(circle at 15% 15%, rgba(255,255,255,.6), transparent 40%),
+      radial-gradient(circle at 85% 88%, rgba(255,255,255,.45), transparent 45%),
+      linear-gradient(150deg, var(--blush) 0%, var(--pink) 55%, #F3AFC7 100%);
+    overflow:hidden; isolation:isolate;
+  }
+
+  .hero-corner{position:absolute; z-index:1; opacity:.9;}
+  .hero-corner.tl{top:-2%; left:-3%; width:min(30vw,260px); transform:rotate(-8deg);}
+  .hero-corner.br{bottom:-4%; right:-3%; width:min(32vw,280px); transform:rotate(176deg);}
+
+  .hero-inner{
+    position:relative; z-index:4; display:flex; flex-direction:column; align-items:center; gap:20px;
+    max-width:680px; animation:fadeIn 1.4s ease both;
+  }
+  @keyframes fadeIn{from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);}}
+
+  .hero h1{
+    font-size:clamp(1.9rem, 5.2vw, 3.4rem); font-weight:600; line-height:1.25;
+    color:var(--ink); text-shadow:0 2px 18px rgba(255,255,255,.55);
+  }
+  .hero h1 em{font-style:italic; color:var(--pink-deep);}
+
+  .hero .subtitle{
+    font-size:clamp(.92rem,1.5vw,1.08rem); font-weight:300; color:var(--ink-soft);
+    max-width:460px; line-height:1.8;
+  }
+
+  .cta-wrap{margin-top:10px; display:flex; flex-direction:column; align-items:center; gap:8px;}
+  .btn-open{
+    font-family:'Poppins',sans-serif; font-weight:500; font-size:.94rem; letter-spacing:.03em;
+    color:#fff; background:linear-gradient(120deg,#E79AB5,#D67FA0); border:none;
+    padding:16px 40px; border-radius:999px; cursor:pointer;
+    box-shadow:0 12px 28px rgba(214,127,160,.4);
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .btn-open:hover{transform:translateY(-3px); box-shadow:0 16px 34px rgba(214,127,160,.5);}
+  .btn-open:active{transform:translateY(0) scale(.97);}
+  .btn-open:focus-visible{outline:2px solid var(--gold); outline-offset:4px;}
+
+  .hint{font-size:.7rem; color:var(--ink-soft); letter-spacing:.06em; opacity:.75;}
+
+  /* ---------- 3 foto berjajar di halaman awal (hero) ---------- */
+  .hero-photos-row{
+    display:flex; flex-direction:row; justify-content:center;
+    gap:14px; margin-top:18px; flex-wrap:wrap;
+  }
+  .hero-photos-row img{
+    /* Ganti angka width & height di sini untuk memperbesar/memperkecil foto */
+    width:120px; height:120px; object-fit:cover; border-radius:14px;
+    border:3px solid #fff; box-shadow:0 10px 22px rgba(178,120,140,.28);
+    transform:rotate(-4deg);
+  }
+  .hero-photos-row img:nth-child(2){transform:rotate(3deg);}
+  .hero-photos-row img:nth-child(3){transform:rotate(-2deg);}
+
+  /* ---------- Music player (kartu kecil dengan judul lagu, seperti referensi) ---------- */
+  .music-player{
+    position:fixed; top:20px; right:20px; z-index:50; display:flex; align-items:center; gap:12px;
+    background:rgba(255,255,255,.65); backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.75); border-radius:18px; padding:10px 16px 10px 10px;
+    box-shadow:0 8px 24px rgba(178,120,140,.18);
+    max-width:min(78vw,240px);
+  }
+  .music-btn{
+    flex:none; width:42px; height:42px; border-radius:50%; border:none; cursor:pointer;
+    background:linear-gradient(135deg,#F3AFC7,#E890B0); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 14px rgba(214,127,160,.4); transition:transform .25s ease;
+  }
+  .music-btn:hover{transform:scale(1.06);}
+  .music-btn svg{width:16px; height:16px;}
+  .song-info{display:flex; flex-direction:column; min-width:0; line-height:1.25;}
+  .song-title{
+    font-family:'Poppins',sans-serif; font-weight:600; font-size:.76rem; color:var(--ink);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .song-artist{
+    font-family:'Poppins',sans-serif; font-weight:400; font-size:.68rem; color:var(--ink-soft);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .music-bars{display:flex; gap:2px; align-items:flex-end; height:10px; margin-top:3px;}
+  .music-bars span{width:2px; background:var(--gold); border-radius:2px; height:3px;}
+  .music-player.playing .music-bars span{animation:bars .9s ease-in-out infinite;}
+  .music-bars span:nth-child(2){animation-delay:.15s;}
+  .music-bars span:nth-child(3){animation-delay:.3s;}
+  .music-bars span:nth-child(4){animation-delay:.45s;}
+  @keyframes bars{0%,100%{height:3px;} 50%{height:10px;}}
+
+  /* ================= UCAPAN VIEW (muat penuh, tanpa geser/scroll) ================= */
+  #view-ucapan{
+    padding:3vh 4vw; background:linear-gradient(150deg,#FDEFF3,var(--blush) 60%,var(--cream));
+    overflow:hidden;
+  }
+  .ucapan-wrap{
+    width:100%; max-width:1080px; height:100%; max-height:94vh;
+    display:grid; grid-template-columns:1.1fr .9fr; gap:5vw; align-items:center;
+    overflow:hidden;
+  }
+
+  .btn-back{
+    position:absolute; top:26px; left:26px; z-index:20;
+    display:flex; align-items:center; gap:6px;
+    background:rgba(255,255,255,.7); backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,.8); color:var(--ink-soft);
+    font-family:'Poppins',sans-serif; font-size:.78rem; letter-spacing:.02em;
+    padding:9px 16px 9px 12px; border-radius:999px; cursor:pointer;
+    box-shadow:0 8px 20px rgba(178,120,140,.14); transition:transform .25s ease;
+  }
+  .btn-back:hover{transform:translateX(-2px);}
+
+  .pesan-card{position:relative; max-width:520px; max-height:90vh; overflow:hidden;}
+  .pesan-card .quote-mark{
+    font-family:'Playfair Display', serif; font-size:clamp(1.6rem,4vh,2.6rem); color:var(--pink-deep);
+    line-height:.5; display:block; margin-bottom:clamp(6px,1.4vh,14px);
+  }
+  .pesan-text{
+    font-family:'Playfair Display', serif; font-style:italic;
+    font-size:clamp(.9rem,1.9vh,1.10rem); line-height:1.70; color:var(--ink);
+    /* GANTI ISI PARAGRAF DI BAWAH INI DENGAN UCAPAN PRIBADIMU */
+  }
+  .pesan-signature{margin-top:clamp(8px,1.6vh,16px); font-size:clamp(.66rem,1.3vh,.8rem); color:var(--ink-soft); text-align:right;}
+
+  .closing-quote{
+    margin-top:clamp(10px,2vh,22px); padding-top:clamp(10px,1.8vh,18px); border-top:1px solid rgba(184,144,90,.3);
+  }
+  .closing-quote p{
+    font-family:'Playfair Display', serif; font-style:italic; font-weight:500;
+    font-size:clamp(.78rem,2vh,1.08rem); color:var(--ink); line-height:1.4;
+  }
+  .closing-quote span{display:block; margin-top:8px; font-size:.66rem; letter-spacing:.1em; color:var(--gold); text-transform:uppercase;}
+
+  /* ---------- Foto: penempatan tidak formal ---------- */
+  .photo-scatter{position:relative; width:100%; height:440px;}
+  .polaroid{
+    position:absolute; background:#fff; padding:10px 10px 34px; border-radius:6px;
+    box-shadow:var(--shadow); border:1px solid rgba(255,255,255,.9);
+  }
+  .polaroid img{display:block; width:100%; height:100%; object-fit:cover; border-radius:2px; background:linear-gradient(135deg,var(--blush),var(--pink));}
+  .polaroid .cap{
+    position:absolute; left:0; right:0; bottom:8px; text-align:center;
+    font-family:'Playfair Display', serif; font-style:italic; font-size:.74rem; color:var(--ink-soft);
+  }
+  .polaroid.p1{width:190px; height:220px; top:0; left:6%; transform:rotate(-9deg); z-index:3;}
+  .polaroid.p2{width:170px; height:200px; top:30%; right:2%; transform:rotate(7deg); z-index:2;}
+  .polaroid.p3{width:200px; height:230px; bottom:0; left:22%; transform:rotate(4deg); z-index:1;}
+
+  .tape{position:absolute; width:56px; height:20px; background:rgba(227,203,160,.55); border:1px solid rgba(227,203,160,.7); box-shadow:0 2px 6px rgba(0,0,0,.06);}
+  .p1 .tape{top:-10px; left:50%; transform:translateX(-50%) rotate(-4deg);}
+  .p2 .tape{top:-10px; left:50%; transform:translateX(-50%) rotate(5deg);}
+  .p3 .tape{top:-10px; left:50%; transform:translateX(-50%) rotate(-3deg);}
+
+  /* ---------- Responsif ---------- */
+  @media (max-width:900px){
+    body{overflow-y:auto;}
+    .view{position:relative; min-height:100vh; height:auto;}
+    .ucapan-wrap{grid-template-columns:1fr; gap:48px; padding:10vh 0 6vh;}
+    .pesan-card{max-width:100%;}
+    .photo-scatter{height:380px; max-width:420px; margin:0 auto;}
+    .hero-corner.tl{width:38vw;} .hero-corner.br{width:42vw;}
+  }
+  @media (max-width:480px){
+    .music-player{top:14px; right:14px; padding:8px 12px;}
+    .music-player .song-title{display:none;}
+    .btn-back{top:16px; left:16px; font-size:.72rem;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<div id="sparkle-layer"></div>
+<div id="petal-layer"></div>
+
+<!-- ================= MUSIC PLAYER ================= -->
+<div class="music-player" id="musicPlayer">
+  <button class="music-btn" id="musicBtn" aria-label="Putar musik">
+    <svg id="iconPlay" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    <svg id="iconPause" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+  </button>
+  <!-- GANTI JUDUL & NAMA ARTIS DI SINI -->
+  <div class="song-info">
+    <span class="song-title">Prettiest Thing I’ve Ever Seen</span>
+    <span class="song-artist">Elisa Grace, S.Farm.</span>
+    <div class="music-bars"><span></span><span></span><span></span><span></span></div>
+  </div>
+</div>
+<!-- GANTI MUSIK: taruh file mp3 satu folder dengan file ini lalu ganti src di bawah -->
+<audio id="bgAudio" loop preload="none">
+  <source src="musik.mp3" type="audio/mpeg">
+</audio>
+
+<div class="stage">
+
+  <!-- ================= HERO (tampilan pertama) ================= -->
+  <section class="view active" id="view-hero">
+    <div class="hero-corner tl">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.9">
+          <path d="M100 40 C70 55 60 90 100 130 C140 90 130 55 100 40Z" fill="#FFFFFF" stroke="#E38FA8" stroke-width="1.5"/>
+          <path d="M60 70 C40 78 32 100 60 118 C78 100 78 78 60 70Z" fill="#FDEFF3" stroke="#F3AFC7" stroke-width="1.2"/>
+          <path d="M140 70 C160 78 168 100 140 118 C122 100 122 78 140 70Z" fill="#FDEFF3" stroke="#F3AFC7" stroke-width="1.2"/>
+          <path d="M100 130 C95 155 85 170 60 178" stroke="#B7CBAF" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <ellipse cx="70" cy="160" rx="14" ry="6" fill="#B7CBAF" transform="rotate(-30 70 160)"/>
+        </g>
+      </svg>
+    </div>
+    <div class="hero-corner br">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.9">
+          <path d="M100 40 C70 55 60 90 100 130 C140 90 130 55 100 40Z" fill="#FFFFFF" stroke="#E38FA8" stroke-width="1.5"/>
+          <path d="M60 70 C40 78 32 100 60 118 C78 100 78 78 60 70Z" fill="#FDEFF3" stroke="#F3AFC7" stroke-width="1.2"/>
+          <path d="M140 70 C160 78 168 100 140 118 C122 100 122 78 140 70Z" fill="#FDEFF3" stroke="#F3AFC7" stroke-width="1.2"/>
+          <path d="M100 130 C95 155 85 170 60 178" stroke="#B7CBAF" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <ellipse cx="70" cy="160" rx="14" ry="6" fill="#B7CBAF" transform="rotate(-30 70 160)"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="hero-inner">
+      <span class="eyebrow">Untuk Orang Tengil</span>
+      <h1>🎓 Selamat Wisuda, <em>cintaku</em> </h1>
+      <p class="subtitle">nah akhirnya discan kan, bacanya sendiri ya</p>
+      <div class="cta-wrap">
+        <button class="btn-open" id="openBtn">KLIK GAA?!</button>
+        <span class="hint">PLAY LAGU JANGAN LUPA SENGG</span>
+      </div>
+      <!-- GANTI 3 FOTO INI: ubah src pada masing-masing <img> -->
+      <div class="hero-photos-row">
+        <img src="foto4.jpg" alt="Foto kenangan 4">
+        <img src="foto5.jpg" alt="Foto kenangan 5">
+        <img src="foto6.jpg" alt="Foto kenangan 6">
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= UCAPAN (tampil setelah klik) ================= -->
+  <section class="view" id="view-ucapan">
+    <button class="btn-back" id="backBtn">‹ Kembali</button>
+
+    <div class="ucapan-wrap">
+      <div class="pesan-card">
+        <span class="quote-mark">“</span>
+        <!-- GANTI ISI PARAGRAF DI BAWAH INI DENGAN UCAPANMU SENDIRI -->
+        <p class="pesan-text">
+Happy Graduation mylovee!!<br>
+So proud of u, setelah sekian banyak drama dosen, wfc, dan stressmu &ndash; dan sekarang, u did so well !<br>
+Jangan berkecil hati karna mungkin ada yang ga sesuai harapanmu, tetap bersyukur dan berterimakasih ke Tuhan yaa.<br>
+<em>Just trust God's plan, okay?</em> Selalu percaya deh apa yang ada didepanmu pasti jauh lebih besar, lebih bahagia, dan lebih baik dari yang kamu bayangkan.<br>
+Pesan ini emang baru diketik h-1 kamu wisuda, tapi kamu harus tau rasa banggaku sudah dari dulu kekamu, jauh sebelum kamu ada dititik ini.<br>
+Remember, this is just beginning of everthing u&rsquo;re capable of achieving. Keep dreaming, keep pushing n jangan pernah meragukan dirimu yang hebat ini ya sayang.<br>
+I&rsquo;ll always be here for u, n always proud of u lovee<br>
+Sekali lagiii selamat yaa sengg, goodluck to the next chapter of ur life! Iloveuu!
+        </p>
+        <p class="pesan-signature">— rian 24/7.</p>
+
+        <div class="closing-quote">
+          <p>“Every ending is the beginning of something beautiful.”</p>
+        </div>
+      </div>
+
+      <div class="photo-scatter">
+        <!-- GANTI 3 FOTO: ubah src pada masing-masing <img> di bawah -->
+        <div class="polaroid p1">
+          <div class="tape"></div>
+          <img src="foto1.jpg" alt="Foto kenangan 1">
+          <span class="cap">hehehehe</span>
+        </div>
+        <div class="polaroid p2">
+          <div class="tape"></div>
+          <img src="foto2.jpg" alt="Foto kenangan 2">
+          <span class="cap">next wisudaku</span>
+        </div>
+        <div class="polaroid p3">
+          <div class="tape"></div>
+          <img src="foto3.jpg" alt="Foto kenangan 3">
+          <span class="cap">cakepnyoo</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Pindah tampilan (tanpa scroll) ---------- */
+  const heroView = document.getElementById('view-hero');
+  const ucapanView = document.getElementById('view-ucapan');
+  document.getElementById('openBtn').addEventListener('click', function(){
+    heroView.classList.remove('active');
+    ucapanView.classList.add('active');
+    window.scrollTo(0,0);
+  });
+  document.getElementById('backBtn').addEventListener('click', function(){
+    ucapanView.classList.remove('active');
+    heroView.classList.add('active');
+    window.scrollTo(0,0);
+  });
+
+  /* ---------- Sparkle ---------- */
+  const sparkleLayer = document.getElementById('sparkle-layer');
+  const sparkleCount = window.innerWidth < 600 ? 34 : 60;
+  for(let i=0;i<sparkleCount;i++){
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.style.left = Math.random()*100 + 'vw';
+    s.style.top = Math.random()*100 + 'vh';
+    s.style.animationDelay = (Math.random()*4.5) + 's';
+    s.style.animationDuration = (3.5 + Math.random()*3) + 's';
+    /* variasi ukuran biar lebih hidup, tidak monoton */
+    const sc = 0.7 + Math.random()*1.3;
+    s.style.transform = 'scale(' + sc + ')';
+    sparkleLayer.appendChild(s);
+  }
+
+  /* ---------- Kelopak jatuh (lembut, jarang) ---------- */
+  const petalLayer = document.getElementById('petal-layer');
+  function petalSVG(){
+    return '<svg width="14" height="14" viewBox="0 0 16 16"><path d="M8 0C4 3 4 10 8 16C12 10 12 3 8 0Z" fill="#F3B4C6"/></svg>';
+  }
+  function spawnPetal(){
+    if(reduceMotion) return;
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.style.left = Math.random()*100 + 'vw';
+    const duration = 11 + Math.random()*7;
+    p.style.animationDuration = duration + 's';
+    p.style.setProperty('--drift', (Math.random()*140-70) + 'px');
+    p.style.setProperty('--spin', (240+Math.random()*240) + 'deg');
+    p.style.transform = 'scale(' + (0.6 + Math.random()*0.7) + ')';
+    p.innerHTML = petalSVG();
+    petalLayer.appendChild(p);
+    setTimeout(()=>p.remove(), duration*1000 + 200);
+  }
+  if(!reduceMotion){
+    for(let i=0;i<7;i++){ setTimeout(spawnPetal, i*550); }
+    setInterval(spawnPetal, 1300);
+  }
+
+  /* ---------- Music player ---------- */
+  const audio = document.getElementById('bgAudio');
+  const musicBtn = document.getElementById('musicBtn');
+  const musicPlayer = document.getElementById('musicPlayer');
+  const iconPlay = document.getElementById('iconPlay');
+  const iconPause = document.getElementById('iconPause');
+  let isPlaying = false;
+  musicBtn.addEventListener('click', function(){
+    if(!isPlaying){
+      audio.play().catch(()=>{ /* file musik belum ditambahkan */ });
+      isPlaying = true;
+    } else {
+      audio.pause();
+      isPlaying = false;
+    }
+    musicPlayer.classList.toggle('playing', isPlaying);
+    iconPlay.style.display = isPlaying ? 'none' : 'block';
+    iconPause.style.display = isPlaying ? 'block' : 'none';
+    musicBtn.setAttribute('aria-label', isPlaying ? 'Jeda musik' : 'Putar musik');
+  });
+})();
+</script>
+</body>
+</html>
